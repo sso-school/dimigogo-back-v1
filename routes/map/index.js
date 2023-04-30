@@ -1,12 +1,30 @@
 'use strict'
 
-const axios = require('axios');
-const https = require('https');
-const crypto = require('crypto');
+const controllers = require('./controllers');
+
+const controller = [
+	{
+		name: 'urlXY 가져오기',
+		method: 'GET',
+		url: '/position',
+		handler: controllers.position
+	},
+	{
+		name: '자동차 길찾기 정보 가져오기',
+		method: 'GET',
+		url: '/carinfo',
+		handler: controllers.carinfo
+	},
+	{
+		name: '장소 검색 결과 가져오기',
+		method: 'GET',
+		url: '/search',
+		handler: controllers.search
+	}
+];
 
 module.exports = async (fastify, opts) => {
-	const controllers = ["position", "carinfo", "search"];
-	for(const controller of controllers) {
-		fastify.get(`/${controller}`, require(`./${controller}`));
+	for(const _ of controller) {
+		fastify[_.method.toLowerCase()](_.url, _.handler);
 	}
 }

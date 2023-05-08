@@ -1,25 +1,23 @@
 'use strict'
 
-const controllers = require('./controllers');
-
 const controller = [
 	{
 		name: 'urlXY 가져오기',
 		method: 'GET',
 		url: '/position',
-		handler: controllers.position
+		handler: require('./position')
 	},
 	{
 		name: '자동차 길찾기 정보 가져오기',
 		method: 'GET',
 		url: '/carinfo',
-		handler: controllers.carinfo
+		handler: require('./carinfo')
 	},
 	{
 		name: '장소 검색 결과 가져오기',
 		method: 'GET',
 		url: '/search',
-		handler: controllers.search
+		handler: require('./search')
 	}
 ];
 

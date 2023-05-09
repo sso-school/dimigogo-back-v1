@@ -1,19 +1,21 @@
-'use strict'
+import path from 'path'
+import AutoLoad from '@fastify/autoload'
+import { fileURLToPath } from 'url'
 
-const path = require('path')
-const AutoLoad = require('@fastify/autoload')
-const jwt = require('@fastify/jwt')
-
-require('dotenv').config()
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 // Pass --options via CLI arguments in command to enable these options.
-module.exports.options = {}
+export const options = {}
 
-module.exports = async function (fastify, opts) {
-  fastify.register(jwt, {
-    secret: process.env.JWT_SECRET,
-  });
-  
+export default async function (fastify, opts) {
+  // Place here your custom code!
+
+  // Do not touch the following lines
+
+  // This loads all plugins defined in plugins
+  // those should be support plugins that are reused
+  // through your application
   fastify.register(AutoLoad, {
     dir: path.join(__dirname, 'plugins'),
     options: Object.assign({}, opts)

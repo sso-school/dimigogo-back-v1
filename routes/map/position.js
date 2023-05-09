@@ -1,8 +1,8 @@
-const axios = require('axios');
-const https = require('https');
-const crypto = require('crypto');
+import axios from 'axios';
+import https from 'https';
+import crypto from 'crypto';
 
-module.exports = async (request, reply) => {
+export default async (request, reply) => {
 	const { x, y } = request.query;
 	const response = await axios.get(`https://map.kakao.com/link/map/PIN,${y},${x}`, {
 		maxRedirects: 0,

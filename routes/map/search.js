@@ -1,6 +1,6 @@
-const axios = require('axios');
+import axios from 'axios';
 
-module.exports = async (request, reply) => {
+export default async (request, reply) => {
 	const { q } = request.query;
 	const res = await axios.get("https://search.map.kakao.com/mapsearch/map.daum", {
 		params: {

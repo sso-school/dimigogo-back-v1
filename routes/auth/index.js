@@ -2,7 +2,7 @@ import * as controllers from './controllers.js';
 
 const controller = [
 	{
-		name: '로그인',
+		name: '카카오 로그인',
 		method: 'POST',
 		url: '/login',
 		handler: controllers.login

@@ -13,5 +13,5 @@ export default async (request, reply) => {
 			Referer: "https://map.kakao.com/",
 		},
 	});
-	return res.data;
+	reply.send(res.data);
 }

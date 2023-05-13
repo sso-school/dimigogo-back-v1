@@ -2,15 +2,37 @@ import * as controllers from './controllers.js';
 
 const controller = [
 	{
-		name: '로그인',
+		name: '카카오 로그인',
 		method: 'POST',
 		url: '/login',
-		handler: controllers.login
+		handler: controllers.login,
 	},
+	{
+		name: '토큰 확인',
+		method: 'POST',
+		url: '/check',
+		handler: controllers.check,
+		auth: true
+	},
+	{
+		name: '토큰 갱신',
+		method: 'POST',
+		url: '/token',
+		handler: controllers.token
+	}
 ];
 
 export default async (fastify, opts) => {
 	for(const _ of controller) {
-		fastify[_.method.toLowerCase()](_.url, _.handler);
+		fastify[_.method.toLowerCase()](_.url, async (request, reply) => {
+			if(_.auth) {
+				try {
+					await request.jwtVerify();
+				} catch (err) {
+					reply.send(err);
+				}
+			}
+			await _.handler(request, reply);
+		});
 	}
 }

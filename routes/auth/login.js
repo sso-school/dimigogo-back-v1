@@ -1,15 +1,16 @@
 // const axios = require('axios');
 import axios from "axios";
+import { connectToDatabase } from "../../utils/db.js";
 
 export default async (request, reply) => {
 	//fastify POST 
 	const { kakaoAccesstoken } = request.body;
-	const res = await axios.post(
-		'https://kapi.kakao.com/v2/user/me', 
+	const res = await axios.get(
+		'https://kapi.kakao.com/v2/user/me',
 		{
-			"secure_resource": true
-		}, 
-		{
+			params: {
+				secure_resource: true
+			},
 			headers: {
 				Authorization: `Bearer ${kakaoAccesstoken}`
 			}
@@ -31,16 +32,33 @@ export default async (request, reply) => {
 		expiresIn: '20d'
 	});
 
-  const mongo = this.mongo.db.collection('auth')
-	const result = await mongo.insertOne({
+	const insert = {
 		...data,
-		refreshToken: {
-			token: refreshToken,
-			expiresAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000)
-		}
-	})
+		refreshToken
+	}
 
-	reply
-	.code(200)
-	.send({result})
+	try{
+		const client = await connectToDatabase();
+		const collection = client.db().collection("auth");
+
+		const query = { id: data.id };
+    const documents = await collection.find(query).toArray();
+		
+		if(documents.length) {
+			const result = await collection.updateOne(query, { $set: insert });
+		} 
+		else {
+			const result = await collection.insertOne(insert);
+		}
+		
+		reply.code(200).send({
+			accessToken,
+			refreshToken
+		});
+	}
+	catch{
+		reply
+		.code(500)
+		.send({error: 'DB Error'})
+	}
 }

@@ -1,4 +1,3 @@
-// const axios = require('axios');
 import axios from "axios";
 import { connectToDatabase } from "../../utils/db.js";
 

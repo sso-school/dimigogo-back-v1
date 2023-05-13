@@ -13,6 +13,12 @@ const controller = [
 		url: '/check',
 		handler: controllers.check,
 		auth: true
+	},
+	{
+		name: '토큰 갱신',
+		method: 'POST',
+		url: '/token',
+		handler: controllers.token
 	}
 ];
 

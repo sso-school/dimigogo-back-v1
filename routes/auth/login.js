@@ -1,9 +1,7 @@
-// const axios = require('axios');
 import axios from "axios";
 import { connectToDatabase } from "../../utils/db.js";
 
 export default async (request, reply) => {
-	//fastify POST 
 	const { kakaoAccesstoken } = request.body;
 	const res = await axios.get(
 		'https://kapi.kakao.com/v2/user/me',
@@ -25,7 +23,7 @@ export default async (request, reply) => {
 	};
 
 	const accessToken = await reply.jwtSign(data, {
-		expiresIn: '30min'
+		expiresIn: '10min'
 	});
 
 	const refreshToken = await reply.jwtSign(data, {
@@ -34,7 +32,8 @@ export default async (request, reply) => {
 
 	const insert = {
 		...data,
-		refreshToken
+		refreshToken,
+		refreshTokenExp: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000)
 	}
 
 	try{

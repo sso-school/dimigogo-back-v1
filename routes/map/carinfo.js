@@ -9,12 +9,12 @@ export default async (request, reply) => {
 			secureOptions: crypto.constants.SSL_OP_LEGACY_SERVER_CONNECT,
 		}),
 	});
-	return {
+	reply.send({
 		url: `https://map.kakao.com/?map_type=TYPE_MAP&target=car&rt=${urlX1},${urlY1},${urlX2},${urlY2}&rt1=출발지&rt2=도착지`,
 		iOSUrl: `kakaomap://route?sp=${urlX1},${urlY1}&sn=출발지&ep=${urlX2},${urlY2}&en=도착지&by=car&referrer=m.map.kakao.com`,
 		androidUrl: `intent://route?sp=${urlX1},${urlY1}&sn=출발지&ep=${urlX2},${urlY2}&en=도착지&by=car&referrer=m.map.kakao.com#Intent;scheme=daummaps;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=net.daum.android.map;end`,
 		iOSStore: 'http://itunes.apple.com/kr/app/id304608425',
 		androidStore: 'https://play.google.com/store/apps/details?id=net.daum.android.map',
 		...response.data,
-	};
+	});
 }

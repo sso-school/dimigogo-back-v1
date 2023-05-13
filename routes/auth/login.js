@@ -25,7 +25,7 @@ export default async (request, reply) => {
 	};
 
 	const accessToken = await reply.jwtSign(data, {
-		expiresIn: '5min'
+		expiresIn: '30min'
 	});
 
 	const refreshToken = await reply.jwtSign(data, {
@@ -45,10 +45,10 @@ export default async (request, reply) => {
     const documents = await collection.find(query).toArray();
 		
 		if(documents.length) {
-			const result = await collection.updateOne(query, { $set: insert });
+			await collection.updateOne(query, { $set: insert });
 		} 
 		else {
-			const result = await collection.insertOne(insert);
+			await collection.insertOne(insert);
 		}
 		
 		reply.code(200).send({

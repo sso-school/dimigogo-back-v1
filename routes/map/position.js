@@ -16,8 +16,8 @@ export default async (request, reply) => {
 		const [name, value] = param.split("=");
 		paramsObject[name] = value;
 	});
-	return {
+	reply.send({
 		...paramsObject,
 		url: response.headers.location,
-	};
+	});
 }
